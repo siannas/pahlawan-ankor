@@ -3,6 +3,7 @@
 [RequireComponent(typeof(BoxCollider2D))]
 public class MovementController : MonoBehaviour
 {
+    public Animator animator;
     private const float SkinWidth = .02f;
     private const int TotalHorizontalRays = 6;
     private const int TotalVerticalRays = 4;
@@ -99,7 +100,7 @@ public class MovementController : MonoBehaviour
 			if (Mathf.Abs(deltaMovement.x) > .001f)
 				MoveHorizontally(ref deltaMovement);
 
-			MoveVertically(ref deltaMovement);
+            MoveVertically(ref deltaMovement);
         }
 
 		_transform.Translate(deltaMovement);
@@ -109,6 +110,8 @@ public class MovementController : MonoBehaviour
 
 		_velocity.x = Mathf.Min(_velocity.x, Parameters.MaxVelocity.x);
         _velocity.y = Mathf.Min(_velocity.y, Parameters.MaxVelocity.y);
+        //Set animation to move (still right animation only)
+        animator.SetFloat("Speed", deltaMovement.x);
     }
 
     void CalculateRayOrigins()
@@ -151,9 +154,10 @@ public class MovementController : MonoBehaviour
                 State.IsCollidingLeft = true;
             }
 
-			if (rayDistance < SkinWidth + .0001f)
+            if (rayDistance < SkinWidth + .0001f)
 				break;
 		}
+
     }
 
     void MoveVertically(ref Vector2 deltaMovement)
