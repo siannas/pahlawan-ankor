@@ -111,7 +111,29 @@ public class MovementController : MonoBehaviour
 		_velocity.x = Mathf.Min(_velocity.x, Parameters.MaxVelocity.x);
         _velocity.y = Mathf.Min(_velocity.y, Parameters.MaxVelocity.y);
         //Set animation to move (still right animation only)
+        //Debug.Log(deltaMovement.x);
         animator.SetFloat("Speed", deltaMovement.x);
+        
+        if (animator.GetFloat("Speed") > 0 || animator.GetFloat("Speed") < 0)
+        {
+            animator.SetBool("IsMoving", true);
+        }
+        else
+        {
+            animator.SetBool("IsMoving", false);
+        }
+
+        //Flip object
+        if (animator.GetFloat("Speed") < 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+            animator.SetBool("IsFlipped", true);
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+            animator.SetBool("IsFlipped", false);
+        }
     }
 
     void CalculateRayOrigins()
