@@ -105,35 +105,36 @@ public class MovementController : MonoBehaviour
 
 		_transform.Translate(deltaMovement);
 
-		if (Time.deltaTime > 0)
-			_velocity = deltaMovement / Time.deltaTime;
+        if (Time.deltaTime > 0)
 
-		_velocity.x = Mathf.Min(_velocity.x, Parameters.MaxVelocity.x);
+            _velocity = deltaMovement / Time.deltaTime;
+
+        _velocity.x = Mathf.Min(_velocity.x, Parameters.MaxVelocity.x);
         _velocity.y = Mathf.Min(_velocity.y, Parameters.MaxVelocity.y);
         //Set animation to move (still right animation only)
         //Debug.Log(deltaMovement.x);
         animator.SetFloat("Speed", deltaMovement.x);
         
-        if (animator.GetFloat("Speed") > 0 || animator.GetFloat("Speed") < 0)
+        if (Input.GetButtonDown("Right"))
         {
             animator.SetBool("IsMoving", true);
+            gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
+            animator.SetBool("IsFlipped", false);
         }
-        else
+
+        if (Input.GetButtonDown("Left"))
+        {
+            animator.SetBool("IsMoving", true);
+            gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
+            animator.SetBool("IsFlipped", true);
+        }
+
+        if (Input.GetButtonUp("Right") || (Input.GetButtonUp("Left")))
         {
             animator.SetBool("IsMoving", false);
         }
 
-        //Flip object
-        if (animator.GetFloat("Speed") < 0)
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-            animator.SetBool("IsFlipped", true);
-        }
-        else
-        {
-            GetComponent<SpriteRenderer>().flipX = false;
-            animator.SetBool("IsFlipped", false);
-        }
+
     }
 
     void CalculateRayOrigins()
