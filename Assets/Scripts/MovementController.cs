@@ -21,6 +21,9 @@ public class MovementController : MonoBehaviour
     public ControllerState State { get; private set; }
     public Vector2 Velocity { get { return _velocity; } }
     public bool HandleCollisions { get; set; }
+    // Is it grounded ?
+    public bool IsGrounded;
+    public LayerMask Ground;
 
     private Vector2 _velocity;
     private Transform _transform;
@@ -111,21 +114,18 @@ public class MovementController : MonoBehaviour
 
         _velocity.x = Mathf.Min(_velocity.x, Parameters.MaxVelocity.x);
         _velocity.y = Mathf.Min(_velocity.y, Parameters.MaxVelocity.y);
-        //Set animation to move (still right animation only)
-        //Debug.Log(deltaMovement.x);
         animator.SetFloat("Speed", deltaMovement.x);
-        
+        IsGrounded = Physics2D.OverlapArea(new Vector2(transform.position.x - 0.5f, transform.position.y - 0.5f), new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), Ground);
+
         if (Input.GetButtonDown("Right"))
         {
             animator.SetBool("IsMoving", true);
-            gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
             animator.SetBool("IsFlipped", false);
         }
 
-        if (Input.GetButtonDown("Left"))
+         if (Input.GetButtonDown("Left"))
         {
             animator.SetBool("IsMoving", true);
-            gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
             animator.SetBool("IsFlipped", true);
         }
 
@@ -134,6 +134,10 @@ public class MovementController : MonoBehaviour
             animator.SetBool("IsMoving", false);
         }
 
+        if (Input.GetButtonDown("Jump") && IsGrounded)
+        {
+            SoundsManager.PlaySound("jump");
+        }
 
     }
 

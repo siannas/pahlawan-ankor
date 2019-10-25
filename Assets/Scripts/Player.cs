@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
 	{
 		_normalizedHorizontalSpeed = Input.GetAxis("Horizontal");
 
-		if ((Input.GetButton("Left") && _isFacingRight && !Input.GetButton("Right")) ||
+        if ((Input.GetButton("Left") && _isFacingRight && !Input.GetButton("Right")) ||
  		    (Input.GetButton("Right") && !_isFacingRight && !Input.GetButton("Left")))
 			Flip();
 
@@ -129,7 +129,7 @@ public class Player : MonoBehaviour
             JumpOffWall(WallJumpForce);
 
 		if (Jumpping && !Input.GetButton("Jump"))
-			_controller.AddVerticalForce(-JumpInterruptStrength);
+        _controller.AddVerticalForce(-JumpInterruptStrength);
 
 		_controller.State.DropThroughPlatform = Input.GetButton("Down");
 	}
@@ -139,6 +139,7 @@ public class Player : MonoBehaviour
         JumpWhenGrounded = false;
         Jumpping = true;
         _controller.SetVerticalVelocity(magnitude);
+        SoundsManager.PlaySound("jump");
     }
 
     void JumpOffWall(Vector2 force)
@@ -147,6 +148,7 @@ public class Player : MonoBehaviour
         Jumpping = true;
         var jumpVector = new Vector2(_lastWallTouched == Walls.left ? force.x : -force.x, force.y);
         _controller.SetVelocity(jumpVector);
+        SoundsManager.PlaySound("jump");
     }
 
 	void Flip()
