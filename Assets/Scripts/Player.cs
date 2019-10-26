@@ -1,7 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [Tooltip("How much health does player have?")]
+    public static int curHealth;
+    public int maxHealth = 100;
+
     [Tooltip("Jump strenght.")]
     public float JumpMagnitude = 12f;
 
@@ -73,7 +79,11 @@ public class Player : MonoBehaviour
 	private BoxCollider2D _playerCollider;
 	private MovementController _controller;
 
-	void Awake()
+    void Start()
+    {
+        curHealth = maxHealth;
+    }
+    void Awake()
     {
 		_transform = transform;
 		_playerCollider = GetComponent<BoxCollider2D>();
@@ -109,9 +119,20 @@ public class Player : MonoBehaviour
 		var acceleration = IsGrounded ? _controller.Parameters.AccelerationOnGround : _controller.Parameters.AccelerationInAir;
 		
 		_controller.SetHorizontalVelocity(Mathf.Lerp(_controller.Velocity.x, _normalizedHorizontalSpeed * _controller.Parameters.MaxSpeed, Time.deltaTime * acceleration));
+    
+        if (curHealth > maxHealth)
+        {
+            curHealth = maxHealth;
+        }
+
+        if (curHealth <= 0)
+        {
+            Die();
+        }
+
     }
 
-	void HandleInput()
+    void HandleInput()
 	{
 		_normalizedHorizontalSpeed = Input.GetAxis("Horizontal");
 
@@ -139,7 +160,6 @@ public class Player : MonoBehaviour
         JumpWhenGrounded = false;
         Jumpping = true;
         _controller.SetVerticalVelocity(magnitude);
-        SoundsManager.PlaySound("jump");
     }
 
     void JumpOffWall(Vector2 force)
@@ -148,12 +168,16 @@ public class Player : MonoBehaviour
         Jumpping = true;
         var jumpVector = new Vector2(_lastWallTouched == Walls.left ? force.x : -force.x, force.y);
         _controller.SetVelocity(jumpVector);
-        SoundsManager.PlaySound("jump");
     }
-
+    
 	void Flip()
 	{
 	    _transform.localScale = new Vector3(-_transform.localScale.x, _transform.localScale.y, _transform.localScale.z);
 		_isFacingRight = !_isFacingRight;
 	}
+
+    void Die()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
