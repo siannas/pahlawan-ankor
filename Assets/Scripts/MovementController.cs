@@ -134,7 +134,16 @@ public class MovementController : MonoBehaviour
             animator.SetBool("IsMoving", false);
         }
 
-        if (Input.GetButtonDown("Jump") && IsGrounded)
+        if (IsGrounded)
+        {
+           animator.SetBool("IsJumping", false);
+        }
+        else
+        {
+           animator.SetBool("IsJumping", true);
+        }
+        
+        if (Input.GetButtonDown("Jump")) //&& !animator.GetBool("IsJumping")) <- still bugged
         {
             SoundsManager.PlaySound("jump");
         }
