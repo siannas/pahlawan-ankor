@@ -115,7 +115,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817368b265cdb41e29f8c9aafeee15ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   VerticalMask:
     serializedVersion: 2
     m_Bits: 256
@@ -156,6 +157,10 @@ MonoBehaviour:
     MaxSpeed: 4.5
     AccelerationOnGround: 20
     AccelerationInAir: 5
+  IsGrounded: 0
+  Ground:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &114026353312155618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab7ed0b472a1432b8931441b2a5d1d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   JumpMagnitude: 12
   JumpInterruptStrength: 120
   GroundedLinger: 0.05

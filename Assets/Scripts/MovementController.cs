@@ -8,7 +8,7 @@ public class MovementController : MonoBehaviour
     private const int TotalHorizontalRays = 6;
     private const int TotalVerticalRays = 4;
 
-
+    
     [Header("Collision Masks")]
     [Tooltip("Layers to collide with vertically.")]
     public LayerMask VerticalMask;
@@ -24,6 +24,7 @@ public class MovementController : MonoBehaviour
     // Is it grounded ?
     public bool IsGrounded;
     public LayerMask Ground;
+    private bool IsPlaying = false;
 
     private Vector2 _velocity;
     private Transform _transform;
@@ -116,7 +117,7 @@ public class MovementController : MonoBehaviour
         _velocity.y = Mathf.Min(_velocity.y, Parameters.MaxVelocity.y);
         animator.SetFloat("Speed", deltaMovement.x);
         IsGrounded = Physics2D.OverlapArea(new Vector2(transform.position.x - 0.5f, transform.position.y - 0.5f), new Vector2(transform.position.x + 0.5f, transform.position.y + 0.5f), Ground);
-
+        
         if (Input.GetButtonDown("Right"))
         {
             animator.SetBool("IsMoving", true);
@@ -129,24 +130,34 @@ public class MovementController : MonoBehaviour
             animator.SetBool("IsFlipped", true);
         }
 
-        if (Input.GetButtonUp("Right") || (Input.GetButtonUp("Left")))
+        if  (!Input.GetButtonDown("Right") && !Input.GetButtonDown("Left"))
         {
-            animator.SetBool("IsMoving", false);
+            if (Input.GetButtonUp("Right") || Input.GetButtonUp("Left"))
+            {
+                animator.SetBool("IsMoving", false);
+            }
         }
 
         if (IsGrounded)
         {
            animator.SetBool("IsJumping", false);
+           IsPlaying = false;
         }
         else
         {
            animator.SetBool("IsJumping", true);
         }
         
-        if (Input.GetButtonDown("Jump")) //&& !animator.GetBool("IsJumping")) <- still bugged
+        //Only trigger when it is unpaused
+        if (Pause.paused == false)
         {
-            SoundsManager.PlaySound("jump");
+            if (Input.GetButtonDown("Jump") && !IsPlaying)
+            {
+                IsPlaying = true;
+                SoundsManager.PlaySound("jump");
+            }
         }
+        
 
     }
 
