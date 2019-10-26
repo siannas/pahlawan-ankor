@@ -180,4 +180,9 @@ public class Player : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public void Damage(int dmg)
+    {
+        curHealth -= dmg;
+    }
 }
