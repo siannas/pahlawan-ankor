@@ -40,6 +40,7 @@ public class Pause : MonoBehaviour {
 
     public void Restart ()
     {
+        paused = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

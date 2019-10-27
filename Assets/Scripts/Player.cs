@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+
     [Tooltip("How much health does player have?")]
     public static int curHealth;
     public int maxHealth = 100;
@@ -39,6 +41,7 @@ public class Player : MonoBehaviour
     public bool Jumpping { get; set; }
     public bool JumpWhenGrounded { get; set; }
     public bool IsGrounded
+
     {
         get
         {
@@ -184,5 +187,21 @@ public class Player : MonoBehaviour
     public void Damage(int dmg)
     {
         curHealth -= dmg;
+        SoundsManager.PlaySound("hit");
+        gameObject.GetComponent<Animation>().Play("Player_Hurt");
+    }
+
+    public IEnumerator Knockback(float knockDur, float knockbackPwr, Vector3 knockbackDir)
+    {
+        float timer = 0;
+
+        while (knockDur > timer)
+        {
+            timer += Time.deltaTime;
+            _controller.AddForce(new Vector3(knockbackDir.x * -25, knockbackDir.y + knockbackPwr, transform.position.z));
+        }
+
+        yield return 0;
+
     }
 }

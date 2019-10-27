@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class MovementController : MonoBehaviour
@@ -8,7 +10,16 @@ public class MovementController : MonoBehaviour
     private const int TotalHorizontalRays = 6;
     private const int TotalVerticalRays = 4;
 
-    
+    [Tooltip("Firing and reloading")]
+    public Text AmmoUI;
+    public GameObject BulletLeft, BulletRight;
+    Vector2 bulletPos;
+    public float fireRate = 0.5f;
+    float nextFire = 0.0f;
+    private int curAmmo;
+    public int maxAmmo = 5;
+    private bool IsReloading = false;
+
     [Header("Collision Masks")]
     [Tooltip("Layers to collide with vertically.")]
     public LayerMask VerticalMask;
@@ -38,6 +49,12 @@ public class MovementController : MonoBehaviour
         _verticalDistanceBetweenRays,
         _horizontalDistanceBetweenRays;
 
+    public void Start()
+    {
+        curAmmo = maxAmmo;
+        //AmmoUI.text = curAmmo.ToString;
+    }
+
     public void Awake()
     {
         State = new ControllerState();
@@ -49,7 +66,19 @@ public class MovementController : MonoBehaviour
         _horizontalDistanceBetweenRays = (_playerCollider.size.x * Mathf.Abs(_localScale.x) - 2 * SkinWidth) / (TotalVerticalRays - 1);
         _verticalDistanceBetweenRays = (_playerCollider.size.y * Mathf.Abs(_localScale.y) - 2 * SkinWidth) / (TotalHorizontalRays - 1);
     }
-    
+
+    void Update()
+    {
+        if (!IsReloading)
+        {
+            AmmoUI.text = "Ammo : " + curAmmo.ToString();
+        }
+        else
+        {
+            AmmoUI.text = "Reloading...";
+        }
+    }
+
     public void LateUpdate()
     {
 		if (!Parameters.Flying)
@@ -157,8 +186,24 @@ public class MovementController : MonoBehaviour
                 SoundsManager.PlaySound("jump");
             }
         }
-        
 
+        if (Input.GetButtonDown("Fire1") && Time.time > nextFire && curAmmo > 0 && !IsReloading)
+        {
+            curAmmo -= 1;
+            SoundsManager.PlaySound("gun");
+            nextFire = Time.time + fireRate;
+            fire();
+        }
+
+
+        if (Input.GetButtonDown("Reload") || curAmmo == 0)
+        {
+            if (!IsReloading && curAmmo != 5)
+            {
+                IsReloading = true;
+                StartCoroutine(Reload());
+            }
+        }
     }
 
     void CalculateRayOrigins()
@@ -245,5 +290,28 @@ public class MovementController : MonoBehaviour
 			if (rayDistance < SkinWidth + .0001f)
 				break;
 		}
+    }
+
+    void fire()
+    {
+        bulletPos = transform.position;
+        if (!animator.GetBool("IsFlipped"))
+        {
+            bulletPos += new Vector2(0, -0.1f);
+            Instantiate(BulletRight, bulletPos, Quaternion.identity);
+        }
+        else
+        {
+            bulletPos += new Vector2(0, -0.1f);
+            Instantiate(BulletLeft, bulletPos, Quaternion.identity);
+        }
+
+    }
+
+    IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(1.5f);
+        curAmmo = maxAmmo;
+        IsReloading = false;
     }
 }
