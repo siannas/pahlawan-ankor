@@ -19,6 +19,7 @@ public class MovementController : MonoBehaviour
     private int curAmmo;
     public int maxAmmo = 5;
     private bool IsReloading = false;
+    public ShakeCam shaker;
 
     [Header("Collision Masks")]
     [Tooltip("Layers to collide with vertically.")]
@@ -52,7 +53,6 @@ public class MovementController : MonoBehaviour
     public void Start()
     {
         curAmmo = maxAmmo;
-        //AmmoUI.text = curAmmo.ToString;
     }
 
     public void Awake()
@@ -189,10 +189,12 @@ public class MovementController : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1") && Time.time > nextFire && curAmmo > 0 && !IsReloading)
         {
+            animator.SetTrigger("IsShooting");
             curAmmo -= 1;
             SoundsManager.PlaySound("gun");
             nextFire = Time.time + fireRate;
             fire();
+            shaker.ShakeCamera();
         }
 
 

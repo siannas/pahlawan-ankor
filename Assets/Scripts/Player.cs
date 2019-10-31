@@ -191,6 +191,7 @@ public class Player : MonoBehaviour
         gameObject.GetComponent<Animation>().Play("Player_Hurt");
     }
 
+
     public IEnumerator Knockback(float knockDur, float knockbackPwr, Vector3 knockbackDir)
     {
         float timer = 0;

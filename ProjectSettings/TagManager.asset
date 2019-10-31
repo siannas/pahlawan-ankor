@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Platform
   - Solid
+  - CameraShaker
+  - Enemy
+  - Wall
+  - Spikes
   layers:
   - Default
   - TransparentFX
