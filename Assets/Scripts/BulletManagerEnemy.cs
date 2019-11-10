@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
+using Unity.Collections;
 
-public class BulletManager : MonoBehaviour
+public class BulletManagerEnemy : MonoBehaviour
 {
 
-    [HideInInspector]
     public float velX = 5f;
-    [HideInInspector]
     public float velY = 0f;
     Rigidbody2D rb;
-    private EnemiesBehavior enemybehavior;
+    private Player player;
+    private int Damage = 10;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        GameObject enemies = GameObject.Find("Boss");
-        enemybehavior = enemies.GetComponent<EnemiesBehavior>();
+        GameObject playerObj = GameObject.Find("Player");
+        player = playerObj.GetComponent<Player>();
     }
 
     void Update()
@@ -31,10 +31,10 @@ public class BulletManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.name == "Boss")
+        if (collision.name == "Player")
         {
             Destroy(gameObject);
-            enemybehavior.curHealth -= 10;
+            player.Damage(Damage);
         }
     }
 }
