@@ -1,0 +1,26 @@
+[
+	{
+		'id': 0,
+		'title': null,
+		'persons': { 
+			'person1': 'cak to',
+			'person2': 'bro bo'
+		},
+		'dialogue': [
+			{'%person1%': 'Bala blala'},
+			{'%person2%': 'Ayyey'}
+		]
+	},
+	{
+		'id': 1,
+		'title': null,
+		'persons': { 
+			'person1': 'cak to',
+			'person2': 'bro bo'
+		},
+		'dialogue': [
+			{'%person1%': 'Bala blala'},
+			{'%person2%': 'Ayyey'}
+		]
+	}
+]
