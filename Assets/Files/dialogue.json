@@ -3,24 +3,18 @@
 		'id': 0,
 		'title': null,
 		'persons': { 
-			'person1': 'cak to',
-			'person2': 'bro bo'
+			'person1': 'Player',
+			'person2': 'Boss'
+		},
+		'sprites': { 
+			'person1': 'dialogue/Player',
+			'person2': 'dialogue/Boss_1'
 		},
 		'dialogue': [
-			{'%person1%': 'Bala blala'},
-			{'%person2%': 'Ayyey'}
-		]
-	},
-	{
-		'id': 1,
-		'title': null,
-		'persons': { 
-			'person1': 'cak to',
-			'person2': 'bro bo'
-		},
-		'dialogue': [
-			{'%person1%': 'Bala blala'},
-			{'%person2%': 'Ayyey'}
+			{'person1,LEFT': 'Bala blala'},
+			{'person2,RIGHT': 'Ayyey'},
+			{'person1,LEFT': 'ASOJdno nas osand ao os'},
+			{'person2,RIGHT': 'aosdn aosidn a sodao aosd noanwo dnown fa'}
 		]
 	}
 ]

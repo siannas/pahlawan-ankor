@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using DG.Tweening;
 using KoganeUnityLib;
+using System.Text.RegularExpressions;
 
 public class DialogueManager : MonoBehaviour
 {
-    public GameObject person1;
-    public GameObject person2;
+    public GameObject LEFT;
+    public GameObject RIGHT;
     public GameObject dialogBox;
     
     GameObject dialogMaster;
@@ -21,12 +22,34 @@ public class DialogueManager : MonoBehaviour
 
     private dialogueTemplate dt;
 
+    private Dictionary<string, Sprite> person_image;
+
     void Start()
     {
         dialogMaster = gameObject;
         dialogLine = dialogBox.GetComponentInChildren<TextMeshProUGUI>();
-        dt = gameObject.GetComponent<dialogueTemplate>();
-        dt.startScenarioAt(0);
+        dt = gameObject.transform.GetComponentInChildren<dialogueTemplate>();
+        person_image = new Dictionary<string, Sprite>();
+
+        initScenario(0);
+    }
+
+    private void initScenario(int index)
+    {
+        dt.startScenarioAt(index);
+
+        //init image sprites
+        Dictionary<string, string> spritesPath = dt.getSpritesPath();
+        
+        foreach(KeyValuePair<string,string> path in spritesPath)
+        {
+            Sprite image = Resources.Load<Sprite>(path.Value);
+            Debug.Log(path.Value);
+            person_image.Add(path.Key, image);
+        }
+        
+
+        showHide("dialog", true);
         continueLine();
     }
 
@@ -49,25 +72,54 @@ public class DialogueManager : MonoBehaviour
         else
         {
             string line = dt.getNextLine();
+
+            if (string.IsNullOrEmpty(line))
+            {
+                showHide("dialog", false);
+                return;
+            }
+
+            changePerson();
             showDialogLine(line);
         }
+    }
+
+    private void changePerson()
+    {
+        string person_key = dt.getKey();
+
+        switch (dt.getCurrPersonPosition())
+        {
+            case "LEFT":
+                LEFT.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = person_image[person_key];
+                LEFT.GetComponentInChildren<TMP_Text>().text = dt.getCurrPerson();
+                showHide("LEFT", true);
+                showHide("RIGHT", false);
+                break;
+            case "RIGHT":
+                RIGHT.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = person_image[person_key];
+                RIGHT.GetComponentInChildren<TMP_Text>().text = dt.getCurrPerson();
+                showHide("RIGHT", true);
+                showHide("LEFT", false);
+                break;
+        }
+
     }
 
     private void showHide(string thing, bool isShow)
     {
         switch (thing)
         {
-            case "person1":
-                person1.SetActive(isShow);
+            case "LEFT":
+                LEFT.SetActive(isShow);
                 break;
-            case "person2":
-                person2.SetActive(isShow);
+            case "RIGHT":
+                RIGHT.SetActive(isShow);
                 break;
             default:
                 dialogMaster.SetActive(isShow);
-                dialogLine.SetText("");
-                person1.SetActive(true);
-                person2.SetActive(true);
+                LEFT.SetActive(true);
+                RIGHT.SetActive(true);
                 break;
         }
     }
