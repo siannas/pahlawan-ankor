@@ -1530,6 +1530,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 637414b7b74385145890cd50eda8a68b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoomFactor: 1
+  zoomSpeed: 5
   smoothTimeX: 0.1
   smoothTimeY: 0.1
   player: {fileID: 0}
@@ -2721,6 +2723,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Points.Array.data[0].y
       value: -0.091089964
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797097135963679853, guid: 92d6ea91028d64244a9edf2b1a8d0bf8,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92d6ea91028d64244a9edf2b1a8d0bf8, type: 3}
@@ -4873,7 +4880,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.15, y: 1.77}
+    oldSize: {x: 1.14, y: 1.77}
     newSize: {x: 1.14, y: 1.77}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -4965,6 +4972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   facingRight: 1
+  jumpHeight: 3.5
   speed: {x: 3, y: 0}
   direction: {x: 1, y: 0}
 --- !u!114 &1571632885
@@ -4980,7 +4988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curHealth: 0
-  maxHealth: 100
+  maxHealth: 150
   healthtxt: {fileID: 1267618586}
   enemies: {fileID: 0}
   BulletLeftEnemy: {fileID: 8767153583738577041, guid: d52d0de89c7bea249a5c2036ebbcbdf7,
@@ -5097,6 +5105,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Points.Array.data[0].y
       value: -0.091089964
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797097135963679853, guid: 92d6ea91028d64244a9edf2b1a8d0bf8,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92d6ea91028d64244a9edf2b1a8d0bf8, type: 3}
@@ -5550,6 +5563,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Points.Array.data[0].y
       value: -0.091089964
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797097135963679853, guid: 92d6ea91028d64244a9edf2b1a8d0bf8,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92d6ea91028d64244a9edf2b1a8d0bf8, type: 3}

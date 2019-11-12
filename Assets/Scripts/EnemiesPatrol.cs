@@ -6,9 +6,10 @@ public class EnemiesPatrol : MonoBehaviour
 {
     [HideInInspector]
     public bool facingRight = true;
-    //private Rigidbody2D rigidBody2D;
+    //private int rb2d;
 
-    public Vector2 speed = new Vector2(10, 0);
+    public float jumpHeight = 0f; // A public float so we can change its value easily in the inspector
+    public Vector2 speed;
     public Vector2 direction = new Vector2(1, 0);
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -31,11 +32,13 @@ public class EnemiesPatrol : MonoBehaviour
         }
     }
 
+
     void FixedUpdate()
     {
         Vector2 movement = new Vector2(speed.x * direction.x, 0);
         movement *= Time.deltaTime;
         transform.Translate(movement);
+        //Debug.Log(speed);
     }
 
     private void Flip()
@@ -49,6 +52,12 @@ public class EnemiesPatrol : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipX = false;
         }
+    }
+
+    public void Jumping()
+    {
+        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpHeight), ForceMode2D.Impulse);
+        Debug.Log("IsJumping");
     }
 
 }
