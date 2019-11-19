@@ -1,12 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
+using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
 public class EnemiesBehavior : MonoBehaviour
 {
+    private Player playerevent;
     private SmoothCam playercam;
-
+    [HideInInspector]
+    public bool IsTweening;
     private EnemiesPatrol patrol;
     SpriteRenderer renderer;
     public int curHealth;
@@ -21,6 +24,8 @@ public class EnemiesBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        IsTweening = false;
+        playerevent = GameObject.Find("Player").GetComponent<Player>();
         playercam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SmoothCam>();
         enemies = GameObject.FindGameObjectWithTag("Enemy");
         curHealth = maxHealth;
@@ -29,6 +34,11 @@ public class EnemiesBehavior : MonoBehaviour
         patrol = GetComponent<EnemiesPatrol>();
         StartCoroutine(Firing());
         StartCoroutine(Jumpingenemy());
+        
+        if (playerevent == null)
+        {
+            Debug.Log("Null");
+        }
     }
 
     // Update is called once per frame
@@ -42,7 +52,16 @@ public class EnemiesBehavior : MonoBehaviour
         if (curHealth == 0)
         {
             Destroy(gameObject);
-            playercam.SetZoom(0.75f);
+            if (GameObject.Find("Boss") != null)
+            {
+                playercam.SetZoom(0.75f);
+
+                if (IsTweening == false)
+                {
+                    playerevent.Bossdead();
+                    IsTweening = true;
+                }
+            }
         }
 
         if (curHealth <= 50)
@@ -101,7 +120,6 @@ public class EnemiesBehavior : MonoBehaviour
         {
             patrol.Jumping();
         }
-        //Debug.Log(Rand);
         StartCoroutine(Jumpingenemy());
     }
 }

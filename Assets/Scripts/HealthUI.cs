@@ -12,20 +12,15 @@ public class HealthUI : MonoBehaviour
 
     void Start()
     {
-        IsTweening = true;
+        IsTweening = false;
     }
     void Update()
     {
         Health.text = Player.curHealth.ToString() + "%";
 
-        if (Input.GetKeyDown(KeyCode.I)) //Tes
+        if (Player.curHealth <= 30 && !IsTweening)
         {
-            Player.curHealth -= 10;
-        }
-
-        if (Player.curHealth <= 10 && IsTweening)
-        {
-            IsTweening = false;
+            IsTweening = true;
             Hp.DOScale(new Vector3 (1.2f,1.2f,1.2f), 0.5f).SetLoops(-1, LoopType.Yoyo);
         }
     }

@@ -6,9 +6,7 @@ public class EnemiesPatrol : MonoBehaviour
 {
     [HideInInspector]
     public bool facingRight = true;
-    //private int rb2d;
-
-    public float jumpHeight = 0f; // A public float so we can change its value easily in the inspector
+    public float jumpHeight = 0f;
     public Vector2 speed;
     public Vector2 direction = new Vector2(1, 0);
 
@@ -57,7 +55,6 @@ public class EnemiesPatrol : MonoBehaviour
     public void Jumping()
     {
         gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpHeight), ForceMode2D.Impulse);
-        Debug.Log("IsJumping");
     }
 
 }

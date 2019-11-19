@@ -17,8 +17,12 @@ public class DialogueManager : MonoBehaviour
 
     public TMP_Typewriter m_typewriter;
     public float m_speed;
-
-    bool complete = true;
+    private bool complete = true;
+    [HideInInspector]
+    public bool dialoguecomplete;
+    private bool player;
+    private bool enemy;
+    //private Pause pause;
 
     private dialogueTemplate dt;
 
@@ -26,10 +30,16 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.Find("Player").GetComponent<Player>().enabled = false;
+        player = GameObject.Find("Player").GetComponent<MovementController>().enabled = false;
+        enemy = GameObject.Find("Boss").GetComponent<EnemiesBehavior>().enabled = false;
+        enemy = GameObject.Find("Boss").GetComponent<EnemiesPatrol>().enabled = false;
+        //pause = GameObject.Find("Main Camera").GetComponent<Pause>();
         dialogMaster = gameObject;
         dialogLine = dialogBox.GetComponentInChildren<TextMeshProUGUI>();
         dt = gameObject.transform.GetComponentInChildren<dialogueTemplate>();
         person_image = new Dictionary<string, Sprite>();
+        //Player.SetActive(false);
 
         initScenario(0);
     }
@@ -60,7 +70,7 @@ public class DialogueManager : MonoBehaviour
         (
             text: line,
             speed: m_speed,
-            onComplete: () => complete=true
+            onComplete: () => complete = true
         );
     }
 
@@ -71,11 +81,18 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
+
             string line = dt.getNextLine();
 
-            if (string.IsNullOrEmpty(line))
+            if (string.IsNullOrEmpty(line) && dialoguecomplete == false)
             {
                 showHide("dialog", false);
+                //Debug.Log("DONE");
+                dialoguecomplete = true;
+                player = GameObject.Find("Player").GetComponent<Player>().enabled = true;
+                player = GameObject.Find("Player").GetComponent<MovementController>().enabled = true;
+                enemy = GameObject.Find("Boss").GetComponent<EnemiesBehavior>().enabled = true;
+                enemy = GameObject.Find("Boss").GetComponent<EnemiesPatrol>().enabled = true;
                 return;
             }
 
@@ -126,7 +143,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && Pause.paused == false)
         {
             continueLine();
         }

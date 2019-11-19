@@ -7,14 +7,14 @@
 			'person2': 'Boss'
 		},
 		'sprites': { 
-			'person1': 'dialogue/Player',
-			'person2': 'dialogue/Boss_1'
+			'person1': 'dialogue/Player Face',
+			'person2': 'dialogue/Enemy Face'
 		},
 		'dialogue': [
-			{'person1,LEFT': 'Bala blala'},
-			{'person2,RIGHT': 'Ayyey'},
-			{'person1,LEFT': 'ASOJdno nas osand ao os'},
-			{'person2,RIGHT': 'aosdn aosidn a sodao aosd noanwo dnown fa'}
+			{'person1,LEFT': 'Aku akan membasmi semua koruptor di negeri ini !'},
+			{'person2,RIGHT': 'Hei bocah ! kau tak akan pernah bisa membasmi kami.. HAHAHA'},
+			{'person1,LEFT': 'Lihat saja kau tikus berdasi !'},
+			{'person2,RIGHT': 'Dasar bocah tak tahu diri, ku tunggu kau disini !'}
 		]
 	}
 ]

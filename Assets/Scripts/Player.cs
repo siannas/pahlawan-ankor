@@ -2,9 +2,14 @@
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
+    private EnemiesBehavior Enemiesevent;
+    private GameObject LevelsucessUI;
+    public Transform Levelsucess;
+
 
     [Tooltip("How much health does player have?")]
     public static int curHealth;
@@ -85,6 +90,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         curHealth = maxHealth;
+        LevelsucessUI = GameObject.Find("Levelsucess");
+        LevelsucessUI.SetActive(false);
     }
     void Awake()
     {
@@ -204,5 +211,18 @@ public class Player : MonoBehaviour
 
         yield return 0;
 
+    }
+
+    public void Bossdead()
+    {
+        StartCoroutine(GameEnd());
+    }
+
+    IEnumerator GameEnd()
+    {
+        LevelsucessUI.SetActive(true);
+        Levelsucess.DOMoveY(-1.5f, 1);
+        yield return new WaitForSeconds(3f);
+        LevelsucessUI.SetActive(false);
     }
 }

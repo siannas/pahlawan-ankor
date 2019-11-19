@@ -6,12 +6,19 @@ using UnityEngine;
 public class Pause : MonoBehaviour {
 
     public GameObject PauseUI;
-
+    private DialogueManager Dialogmanager;
+    private bool dialogcomplete;
+    private string main;
+    
     public static bool paused = false;
 
     void Start()
     {
         PauseUI.SetActive(false);
+        if (main == SceneManager.GetActiveScene().name)
+        {
+            Dialogmanager = GameObject.Find("dialogueMaster").GetComponent<DialogueManager>();
+        }
     }
 
     void Update()
@@ -32,6 +39,23 @@ public class Pause : MonoBehaviour {
             PauseUI.SetActive(false);
             Time.timeScale = 1;
         }
+    }
+
+
+    private void FixedUpdate()
+    {
+        if (main == SceneManager.GetActiveScene().name)
+        {
+            dialogcomplete = Dialogmanager.dialoguecomplete;
+            if (dialogcomplete == true)
+            {
+                dialogcomplete = false;
+                //Debug.Log("dialogcomplete");
+                paused = false;
+            }
+        }
+
+        
     }
     public void Resume()
     {
