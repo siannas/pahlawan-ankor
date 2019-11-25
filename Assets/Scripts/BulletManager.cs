@@ -9,12 +9,16 @@ public class BulletManager : MonoBehaviour
     public float velY = 0f;
     Rigidbody2D rb;
     private EnemiesBehavior enemybehavior;
+    private GameObject[] enemies;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        GameObject enemies = GameObject.Find("Boss");
-        enemybehavior = enemies.GetComponent<EnemiesBehavior>();
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemybehavior = enemies[i].GetComponent<EnemiesBehavior>();
+        }
     }
 
     void Update()
@@ -31,9 +35,10 @@ public class BulletManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.name == "Boss")
+        if (collision.CompareTag("Enemy"))
         {
             Destroy(gameObject);
+            enemybehavior = collision.GetComponent<EnemiesBehavior>();
             enemybehavior.curHealth -= 10;
         }
     }

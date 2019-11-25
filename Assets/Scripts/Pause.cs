@@ -9,16 +9,33 @@ public class Pause : MonoBehaviour {
     private DialogueManager Dialogmanager;
     private bool dialogcomplete;
     private string main;
-    
+    private GameObject[] enemies;
+    private Player playerevent;
+    private SmoothCam playercam;
+    private SpriteRenderer FaderImg;
+    [HideInInspector] public bool IsTweening;
+    [HideInInspector] public float enemiescount;
+
     public static bool paused = false;
 
     void Start()
     {
+        FaderImg = GameObject.Find("Fader").GetComponent<SpriteRenderer>();
+        IsTweening = false;
+        playerevent = GameObject.Find("Player").GetComponent<Player>();
+        playercam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SmoothCam>();
+
         PauseUI.SetActive(false);
         if (main == SceneManager.GetActiveScene().name)
         {
             Dialogmanager = GameObject.Find("dialogueMaster").GetComponent<DialogueManager>();
         }
+
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        
+        enemiescount = enemies.Length;
+        Debug.Log(enemiescount);
+        StartCoroutine(Fader(true));
     }
 
     void Update()
@@ -54,8 +71,19 @@ public class Pause : MonoBehaviour {
                 paused = false;
             }
         }
-
         
+
+        if (enemiescount == 0)
+        {
+            playercam.SetZoom(0.75f);
+
+            if (IsTweening == false)
+            {
+                playerevent.AllDead();
+                IsTweening = true;
+                StartCoroutine(Fader(false));
+            }
+        }
     }
     public void Resume()
     {
@@ -71,5 +99,28 @@ public class Pause : MonoBehaviour {
     public void Quit ()
     {
         Application.Quit();
+    }
+
+    IEnumerator Fader(bool Fading)
+    {
+        
+        if (Fading)
+        {
+            for (float i = 1; i >= 0; i -= Time.deltaTime)
+            {
+                FaderImg.color = new Color(0, 0, 0, i);
+                yield return null;
+            }
+        }
+        else
+        {
+            yield return new WaitForSeconds(2f);
+            for (float i = 0; i <= 1; i += Time.deltaTime)
+            {
+                FaderImg.color = new Color(0, 0, 0, i);
+                yield return null;
+            }
+        }
+
     }
 }

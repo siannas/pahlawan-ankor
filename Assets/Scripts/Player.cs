@@ -8,7 +8,11 @@ public class Player : MonoBehaviour
 {
     private EnemiesBehavior Enemiesevent;
     private GameObject LevelsucessUI;
+    private Text LvlscsUI;
     public Transform Levelsucess;
+    private float fallzone = -10f;
+    private GameObject player;
+    private Player playerevent;
 
 
     [Tooltip("How much health does player have?")]
@@ -89,9 +93,11 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        LvlscsUI = GameObject.Find("Levelsucess").GetComponent<Text>();
         curHealth = maxHealth;
         LevelsucessUI = GameObject.Find("Levelsucess");
         LevelsucessUI.SetActive(false);
+        player = GameObject.Find("Player");
     }
     void Awake()
     {
@@ -103,6 +109,11 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
+        if (player.transform.position.y < fallzone)
+        {
+            Die();
+        }
+
         _groundLingerTime += Time.deltaTime;
         if (IsTouchingWall)
         {
@@ -213,16 +224,33 @@ public class Player : MonoBehaviour
 
     }
 
-    public void Bossdead()
+    public void AllDead()
     {
         StartCoroutine(GameEnd());
     }
 
     IEnumerator GameEnd()
     {
+
+        float playerY = gameObject.transform.position.y;
+        bool controller;
+
         LevelsucessUI.SetActive(true);
-        Levelsucess.DOMoveY(-1.5f, 1);
+        Levelsucess.DOMoveY(playerY, 1);
+        controller = gameObject.GetComponent<Player>().enabled = false;
+        controller = gameObject.GetComponent<MovementController>().enabled = false;
+
         yield return new WaitForSeconds(3f);
-        LevelsucessUI.SetActive(false);
+        for (float i = 1; i >= 0; i -= Time.deltaTime)
+        {
+            LvlscsUI.color = new Color(1, 1, 1, i);
+            yield return null;
+        }
+
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main"))
+        {
+            yield return new WaitForSeconds(1f);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }

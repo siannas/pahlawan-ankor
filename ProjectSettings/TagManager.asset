@@ -10,6 +10,8 @@ TagManager:
   - Enemy
   - Wall
   - Spikes
+  - Levelsuccess
+  - PowerUp
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - 
   - Ground
   - Platform
-  - 
+  - Characters
   - 
   - 
   - 

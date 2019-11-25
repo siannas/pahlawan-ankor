@@ -21,9 +21,13 @@ public class HealthUI : MonoBehaviour
         if (Player.curHealth <= 30 && !IsTweening)
         {
             IsTweening = true;
+            DOTween.Restart(Hp);
             Hp.DOScale(new Vector3 (1.2f,1.2f,1.2f), 0.5f).SetLoops(-1, LoopType.Yoyo);
         }
+        if (Player.curHealth > 30)
+        {
+            Hp.DOScale(new Vector3(1f, 1f, 1f), 0.5f);
+            IsTweening = false;
+        }
     }
-
-
 }

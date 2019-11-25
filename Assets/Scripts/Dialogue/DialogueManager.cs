@@ -22,6 +22,10 @@ public class DialogueManager : MonoBehaviour
     public bool dialoguecomplete;
     private bool player;
     private bool enemy;
+    private GameObject[] enemies;
+    private EnemiesBehavior[] EnemiesBehavior;
+    private EnemiesPatrol[] EnemiesPatrols;
+
     //private Pause pause;
 
     private dialogueTemplate dt;
@@ -32,14 +36,19 @@ public class DialogueManager : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>().enabled = false;
         player = GameObject.Find("Player").GetComponent<MovementController>().enabled = false;
-        enemy = GameObject.Find("Boss").GetComponent<EnemiesBehavior>().enabled = false;
-        enemy = GameObject.Find("Boss").GetComponent<EnemiesPatrol>().enabled = false;
-        //pause = GameObject.Find("Main Camera").GetComponent<Pause>();
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        EnemiesBehavior = new EnemiesBehavior[enemies.Length];
+        EnemiesPatrols = new EnemiesPatrol[enemies.Length];
+        Debug.Log(enemies.Length);
+        for (int i = 0; i < enemies.Length; i++)
+        {
+           enemies[i].GetComponent<EnemiesBehavior>().enabled = false;
+           enemies[i].GetComponent<EnemiesPatrol>().enabled = false;
+        }
         dialogMaster = gameObject;
         dialogLine = dialogBox.GetComponentInChildren<TextMeshProUGUI>();
         dt = gameObject.transform.GetComponentInChildren<dialogueTemplate>();
         person_image = new Dictionary<string, Sprite>();
-        //Player.SetActive(false);
 
         initScenario(0);
     }
@@ -91,8 +100,11 @@ public class DialogueManager : MonoBehaviour
                 dialoguecomplete = true;
                 player = GameObject.Find("Player").GetComponent<Player>().enabled = true;
                 player = GameObject.Find("Player").GetComponent<MovementController>().enabled = true;
-                enemy = GameObject.Find("Boss").GetComponent<EnemiesBehavior>().enabled = true;
-                enemy = GameObject.Find("Boss").GetComponent<EnemiesPatrol>().enabled = true;
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    enemies[i].GetComponent<EnemiesBehavior>().enabled = true;
+                    enemies[i].GetComponent<EnemiesPatrol>().enabled = true;
+                }
                 return;
             }
 

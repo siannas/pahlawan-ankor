@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundsManager : MonoBehaviour
 {
-    public static AudioClip playerjumpsound, playerhitsound, playerdeathsound, playershotsound;
+    public static AudioClip playerjumpsound, playerhitsound, playerdeathsound, playershotsound, powerupsound;
     static AudioSource audioSrc;
 
     void Start()
@@ -13,6 +13,7 @@ public class SoundsManager : MonoBehaviour
         playerhitsound = Resources.Load<AudioClip>("hit");
         playerdeathsound = Resources.Load<AudioClip>("death");
         playershotsound = Resources.Load<AudioClip>("gun");
+        powerupsound = Resources.Load<AudioClip>("powerup");
 
         audioSrc = GetComponent<AudioSource> ();
     }
@@ -33,7 +34,9 @@ public class SoundsManager : MonoBehaviour
             case "gun":
                 audioSrc.PlayOneShot(playershotsound);
                 break;
-
+            case "powerup":
+                audioSrc.PlayOneShot(powerupsound);
+                break;
         }
     }
 }
