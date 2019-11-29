@@ -6,13 +6,10 @@ using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
-    private EnemiesBehavior Enemiesevent;
     private GameObject LevelsucessUI;
     private Text LvlscsUI;
     public Transform Levelsucess;
     private float fallzone = -10f;
-    private GameObject player;
-    private Player playerevent;
 
 
     [Tooltip("How much health does player have?")]
@@ -97,7 +94,6 @@ public class Player : MonoBehaviour
         curHealth = maxHealth;
         LevelsucessUI = GameObject.Find("Levelsucess");
         LevelsucessUI.SetActive(false);
-        player = GameObject.Find("Player");
     }
     void Awake()
     {
@@ -109,7 +105,7 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
-        if (player.transform.position.y < fallzone)
+        if (gameObject.transform.position.y < fallzone)
         {
             Die();
         }
@@ -237,8 +233,6 @@ public class Player : MonoBehaviour
 
         LevelsucessUI.SetActive(true);
         Levelsucess.DOMoveY(playerY, 1);
-        controller = gameObject.GetComponent<Player>().enabled = false;
-        controller = gameObject.GetComponent<MovementController>().enabled = false;
 
         yield return new WaitForSeconds(3f);
         for (float i = 1; i >= 0; i -= Time.deltaTime)

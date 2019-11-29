@@ -1,0 +1,21 @@
+[
+	{
+		'id': 0,
+		'title': null,
+		'persons': { 
+			'person1': 'Player',
+			'person2': 'Penjahat'
+		},
+		'sprites': { 
+			'person1': 'dialogue/Player Face',
+			'person2': 'dialogue/Penjahat Face'
+		},
+		'dialogue': [
+			{'person1,LEFT': 'Apakah ini tempat para koruptor berada ?'},
+			{'person2,RIGHT': 'Siapa kau ini ? beraninya datang kemari !'},
+			{'person1,LEFT': 'Aku Ankor, Aku tahu kalian adalah para penjahat !'},
+			{'person2,RIGHT': 'Hm.. Baik kemarilah, akan kuberi pelajaran berharga'},
+			{'person1,LEFT': 'Haha, tunggu saja !'}
+		]
+	}
+]

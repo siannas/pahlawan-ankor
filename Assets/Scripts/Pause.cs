@@ -8,7 +8,7 @@ public class Pause : MonoBehaviour {
     public GameObject PauseUI;
     private DialogueManager Dialogmanager;
     private bool dialogcomplete;
-    private string main;
+    private readonly string main;
     private GameObject[] enemies;
     private Player playerevent;
     private SmoothCam playercam;
@@ -20,6 +20,7 @@ public class Pause : MonoBehaviour {
 
     void Start()
     {
+        paused = false;
         FaderImg = GameObject.Find("Fader").GetComponent<SpriteRenderer>();
         IsTweening = false;
         playerevent = GameObject.Find("Player").GetComponent<Player>();
@@ -98,7 +99,7 @@ public class Pause : MonoBehaviour {
 
     public void Quit ()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
 
     IEnumerator Fader(bool Fading)

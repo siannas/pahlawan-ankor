@@ -6,6 +6,7 @@ using System.Data;
 using System.Collections;
 using System.IO;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace KoganeUnityLib
 {
@@ -20,7 +21,12 @@ namespace KoganeUnityLib
 
     public class dialogueTemplate : MonoBehaviour
     {
-        const String dialoguePath = "Assets/Files/dialogue.json";
+        private Scene scenename;
+        
+        const String dialoguePath1 = "Assets/Files/dialogue1.json";
+        const String dialoguePath2 = "Assets/Files/dialogue2.json";
+        const String dialoguePath3 = "Assets/Files/dialogue3.json";
+
         string dialogue;
 
         private IList<Dialog> scenario;
@@ -36,9 +42,31 @@ namespace KoganeUnityLib
 
         void Start()
         {
-            StreamReader stream = new StreamReader(dialoguePath);
-            dialogue = stream.ReadToEnd();
-            scenario = JsonConvert.DeserializeObject<IList<Dialog>>(dialogue);
+            scenename = SceneManager.GetActiveScene();
+
+            if (scenename.name == "Lvl 1")
+            {
+                StreamReader stream = new StreamReader(dialoguePath1);
+                dialogue = stream.ReadToEnd();
+                scenario = JsonConvert.DeserializeObject<IList<Dialog>>(dialogue);
+            }
+
+            if (scenename.name == "Lvl 2")
+            {
+                StreamReader stream = new StreamReader(dialoguePath2);
+                dialogue = stream.ReadToEnd();
+                scenario = JsonConvert.DeserializeObject<IList<Dialog>>(dialogue);
+            }
+
+            if (scenename.name == "main")
+            {
+                StreamReader stream = new StreamReader(dialoguePath3);
+                dialogue = stream.ReadToEnd();
+                scenario = JsonConvert.DeserializeObject<IList<Dialog>>(dialogue);
+            }
+
+            Debug.Log(scenename.name);
+
         }
 
 

@@ -187,13 +187,13 @@ public class MovementController : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire1") && Time.time > nextFire && curAmmo > 0 && !IsReloading)
+        if (Input.GetButtonDown("Fire1") && Time.time > nextFire && curAmmo > 0 && !IsReloading && !Pause.paused)
         {
             animator.SetTrigger("IsShooting");
             curAmmo -= 1;
             SoundsManager.PlaySound("gun");
             nextFire = Time.time + fireRate;
-            fire();
+            Fire();
             shaker.ShakeCamera();
         }
 
@@ -294,7 +294,7 @@ public class MovementController : MonoBehaviour
 		}
     }
 
-    void fire()
+    void Fire()
     {
         bulletPos = transform.position;
         if (!animator.GetBool("IsFlipped"))
